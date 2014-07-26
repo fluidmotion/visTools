@@ -13,7 +13,7 @@ from scipy.interpolate import griddata
 class shpTools():
     '''accepts line shapefile of contours - interpolates
     to an ascii grid using scipy.
-    example from
+    example data from
     http://www.swfwmd.state.fl.us/data/gis/layer_library/category/potmaps'''
     def __init__(self,shp,outfile,fld,cellsize):
         self.shp=shp
