@@ -36,7 +36,7 @@ file produced by VisMod - useful for time series animations
 3. Ensure output path exists
 
 Example call to class to format MODFLOW heads for VisIt--
-'''
+```
 origin=[0.0,0.0]  #origin of bottom left corner
 xdim=2000 #cell dimension in the x direction
 ydim=1000 #cell dimension in the y direction
@@ -47,7 +47,7 @@ outpath='MF2005.1_11/MF2005.1_11/test-run/visit/'
 
 v=vm.visMod(layer,precision,xdim,ydim,origin,headsfile,outpath)
 v.BOVheads()
-'''
+```
 
 #visGIS
 
@@ -79,10 +79,10 @@ Example data from
 [http://www.swfwmd.state.fl.us/data/gis/layer_library/category/potmaps]
     
 Example call to class to interpolate shapefile of contours
-'''
+```
 import visGIS as vg
 c2g=vg.shpTools('may75fl_line.shp',
                 'may75fl.dem','M75FLEL',500)
 c2g.getVerts() #required for interp2dem
 c2g.interp2dem()
-'''
+```
