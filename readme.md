@@ -4,6 +4,9 @@ While the ultimate goal of VisMod is to assist in groundwater flow model visuali
 the current classes support the export of files that can be used in visualization software
 such as [http://wci.llnl.gov/codes/visit/].
 
+[![Animation created with VisIt from MODFLOW results](http://i.ytimg.com/vi/v12i04psF2c/mqdefault.jpg)]
+(http://www.youtube.com/watch?v=v12i04psF2c)
+
 ## Dependencies
 
 VisMod expects binary head output from modflow [http://water.usgs.gov/ogw/modflow/],
@@ -36,7 +39,7 @@ file produced by VisMod - useful for time series animations
 3. Ensure output path exists
 
 Example call to class to format MODFLOW heads for VisIt--
-'''
+```
 origin=[0.0,0.0]  #origin of bottom left corner
 xdim=2000 #cell dimension in the x direction
 ydim=1000 #cell dimension in the y direction
@@ -47,7 +50,7 @@ outpath='MF2005.1_11/MF2005.1_11/test-run/visit/'
 
 v=vm.visMod(layer,precision,xdim,ydim,origin,headsfile,outpath)
 v.BOVheads()
-'''
+```
 
 #visGIS
 
@@ -79,10 +82,10 @@ Example data from
 [http://www.swfwmd.state.fl.us/data/gis/layer_library/category/potmaps]
     
 Example call to class to interpolate shapefile of contours
-'''
+```
 import visGIS as vg
 c2g=vg.shpTools('may75fl_line.shp',
                 'may75fl.dem','M75FLEL',500)
 c2g.getVerts() #required for interp2dem
 c2g.interp2dem()
-'''
+```

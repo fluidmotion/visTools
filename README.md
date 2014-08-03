@@ -4,6 +4,9 @@ While the ultimate goal of VisMod is to assist in groundwater flow model visuali
 the current classes support the export of files that can be used in visualization software
 such as [http://wci.llnl.gov/codes/visit/].
 
+[![Animation created with VisIt from MODFLOW results](http://i.ytimg.com/vi/v12i04psF2c/mqdefault.jpg)]
+(http://www.youtube.com/watch?v=v12i04psF2c)
+
 ## Dependencies
 
 VisMod expects binary head output from modflow [http://water.usgs.gov/ogw/modflow/],
