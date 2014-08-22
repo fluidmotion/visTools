@@ -9,6 +9,7 @@
 __author__='fluidmotion'
 
 import os,sys,struct
+import numpy as np
 
 class visMod():
     '''class to read modflow binary heads or cell-by-cell flow and write bov files for VisIt
@@ -17,8 +18,12 @@ class visMod():
     additional variables for cell by cell flow are total number of layers and 
     the type of flow budget to export
     '''
-    def __init__(self,layer,precision,xdim,ydim,origin,filename,outpath,totalLayers,type='hds'):
-        self.layer=layer
+    def __init__(self,desLayer,precision,xdim,ydim,origin,filename,outpath,
+                 type='hds',totalLayers=0,desSP=1,desTS=1,cellsize=100):
+        self.desLayer=desLayer
+        self.desSP=desSP
+        self.desTS=desTS
+        self.cellsize=cellsize
         self.totalLayers=totalLayers
         self.precision=precision.lower()
         self.xdim=xdim
@@ -37,6 +42,7 @@ class visMod():
         self.bytepos=0
         self.type=type
         self.fobj=''
+        self.outArray=[]
   
     def BOVheads(self):
         prec=4
@@ -55,22 +61,22 @@ class visMod():
         os.chdir(curdir)
         f=open(self.filename,'rb')
           
-        for i in range(0,self.layer):
-            self.bytepos=0
-            f.seek(0,2)
-            fileend=f.tell()
-            f.seek(0)
-            self.fvis=open(os.path.join(self.outrel,'bovlayer'+str(self.layer)+'.visit'),'w')
-            while self.bytepos<=fileend:
-                self.readheader(f)
-                self.bytepos=f.tell()
-                if self.iLay==self.layer:
-                    self.writeBOV()
-                self.bytepos=self.row*self.col*prec+f.tell()
-                f.seek(self.bytepos)
-                if self.bytepos>=fileend:
-                    break
-            self.fvis.close()
+        # for i in range(0,self.desLayer):
+        self.bytepos=0
+        f.seek(0,2)
+        fileend=f.tell()
+        f.seek(0)
+        self.fvis=open(os.path.join(self.outrel,'bovlayer'+str(self.desLayer)+'.visit'),'w')
+        while self.bytepos<=fileend:
+            self.readheader(f)
+            self.bytepos=f.tell()
+            if self.iLay==self.desLayer:
+                self.writeBOV()
+            self.bytepos=self.row*self.col*prec+f.tell()
+            f.seek(self.bytepos)
+            if self.bytepos>=fileend:
+                break
+        self.fvis.close()
         f.close()
   
     def readheader(self,f):
@@ -107,7 +113,7 @@ class visMod():
         f.seek(0,2)
         fileend=f.tell()
         f.seek(0)
-        self.fvis=open(os.path.join(self.outrel,self.type.replace(' ','')+'CCF'+str(self.layer)+'.visit'),'w')
+        self.fvis=open(os.path.join(self.outrel,self.type.replace(' ','')+'CCF'+str(self.desLayer)+'.visit'),'w')
         while self.bytepos<=fileend:
             self.bytepos=f.tell()
             if self.bytepos==fileend:
@@ -149,7 +155,7 @@ class visMod():
                 nlist=0
             if nbtype==0 or nbtype==1: #flow thru faces, storage
                 for i in range(0,self.totalLayers):
-                    if textType.find(type)>-1 and i+1==self.layer:
+                    if textType.find(type)>-1 and i+1==self.desLayer:
                         print 'exporting '+textType
                         self.bytepos=f.tell()  
                         self.writeBOV()
@@ -170,11 +176,43 @@ class visMod():
                     self.bytepos=f.tell()
                     self.writeBOV()
                 f.seek(self.row*self.col*prec,1)
+                
+    def BinaryHeads(self):
+        print 'binary heads...'
+        prec=4
+        if self.precision=='double':
+            prec=8  
+        infile=open(self.filename,'rb')
+        heads=[]
+
+        self.bytepos=0
+        infile.seek(0,2)
+        fileend=infile.tell()
+        infile.seek(0)
+        while self.bytepos<=fileend:
+            self.readheader(infile)
+            self.bytepos=infile.tell()
+            if self.iLay==self.desLayer and self.nPer==self.desSP and self.nStep==self.desTS:
+                for j in range(0,self.col):
+                    for k in range(0,self.row):
+                        if prec==8:
+                            hd=struct.unpack('d',infile.read(8))
+                        elif prec==4:
+                            hd=struct.unpack('f',infile.read(4))
+                        heads.append(hd[0])
+                self.bytepos=infile.tell()
+            else:
+                self.bytepos=self.row*self.col*prec+infile.tell()
+                infile.seek(self.bytepos)
+            if self.bytepos>=fileend:
+                break
+        infile.close()   
+        self.outArray=np.array(heads).reshape((self.col,self.row))
         
     def writeBOV(self):
-        print 'BOV '+self.type+' layer='+str(self.layer)+' stress period='+str(self.nPer)+' time step='+str(self.nStep)
-        outfile=open(os.path.join(self.outrel,self.type+'SP'+str(self.nPer)+'TS'+str(self.nStep)+'Lay'+str(self.layer)+'.bov'),'w')
-        self.fvis.write(self.type+'SP'+str(self.nPer)+'TS'+str(self.nStep)+'Lay'+str(self.layer)+'.bov\n')
+        print 'BOV '+self.type+' layer='+str(self.desLayer)+' stress period='+str(self.nPer)+' time step='+str(self.nStep)
+        outfile=open(os.path.join(self.outrel,self.type+'SP'+str(self.nPer)+'TS'+str(self.nStep)+'Lay'+str(self.desLayer)+'.bov'),'w')
+        self.fvis.write(self.type+'SP'+str(self.nPer)+'TS'+str(self.nStep)+'Lay'+str(self.desLayer)+'.bov\n')
         outfile.write('TIME: '+str(self.nPer)+'.'+str(self.nStep)+'\n')
         outfile.write('DATA_FILE: '+self.relfile+'\n')
         outfile.write('DATA SIZE: '+str(self.col)+' '+str(self.row)+' 1\n')
@@ -189,4 +227,14 @@ class visMod():
         outfile.write('BRICK_SIZE: '+str(self.col*self.xdim)+' '+str(self.row*self.ydim)+' 1.\n')
         outfile.write('BYTE_OFFSET: '+str(self.bytepos)+'\n')
         outfile.close()
+        
+    def writeDEM(self):
+        print 'displays correctly for uniform grids only...'
+        header='ncols     {}\n'.format(self.col) +\
+               'nrows     {}\n'.format(self.row) +\
+               'xllcorner    {}\n'.format(self.origin[0]) +\
+               'yllcorner    {}\n'.format(self.origin[1]) +\
+               'cellsize     {}\n'.format(self.cellsize) +\
+               'NODATA_value  9999.0'
+        np.savetxt(os.path.join(self.outpath,self.type+str(self.desLayer)+'.dem'),self.outArray[:,:],header=header,comments='')
         
