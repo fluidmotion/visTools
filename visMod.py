@@ -92,6 +92,7 @@ class visMod():
         self.col = struct.unpack('i',f.read(4))[0]
         self.row = struct.unpack('i',f.read(4))[0]
         self.iLay = struct.unpack('i',f.read(4))[0]
+        print(textType, self.row, self.col)
 
     def readCCF(self):
         '''read binary cell-by-cell file from modflow
