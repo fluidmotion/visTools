@@ -1,0 +1,147 @@
+{
+    "name": "", 
+    "children": [
+        {
+            "name": "Recharge", 
+            "children": [
+                {
+                    "name": "Precip", 
+                    "children": [
+                        {
+                            "name": "Crystalline 3600", 
+                            "size": 3600
+                        }, 
+                        {
+                            "name": "Deadwood 14500", 
+                            "size": 14500
+                        }, 
+                        {
+                            "name": "Madison/Minnelusa 144900", 
+                            "size": 144900
+                        }, 
+                        {
+                            "name": "Minnekahta 6500", 
+                            "size": 6500
+                        }, 
+                        {
+                            "name": "Inyan Kara 11600", 
+                            "size": 11600
+                        }, 
+                        {
+                            "name": "Jurassic 2200", 
+                            "size": 2200
+                        }, 
+                        {
+                            "name": "Dretaceous 2200", 
+                            "size": 2200
+                        }
+                    ]
+                }, 
+                {
+                    "name": "StreamRecharge", 
+                    "children": [
+                        {
+                            "name": "Crystalline 0", 
+                            "size": 0
+                        }, 
+                        {
+                            "name": "Deadwood 0", 
+                            "size": 0
+                        }, 
+                        {
+                            "name": "Madison/Minnelusa 66600", 
+                            "size": 66600
+                        }, 
+                        {
+                            "name": "Minnekahta 0", 
+                            "size": 0
+                        }, 
+                        {
+                            "name": "Inyan Kara 0", 
+                            "size": 0
+                        }, 
+                        {
+                            "name": "Jurassic 0", 
+                            "size": 0
+                        }, 
+                        {
+                            "name": "Cretaceous 0", 
+                            "size": 0
+                        }
+                    ]
+                }
+            ]
+        }, 
+        {
+            "name": "Discharge", 
+            "children": [
+                {
+                    "name": "Well/Springflow", 
+                    "children": [
+                        {
+                            "name": "Crystalline 3600", 
+                            "size": 3600
+                        }, 
+                        {
+                            "name": "Deadwood 10100", 
+                            "size": 10100
+                        }, 
+                        {
+                            "name": "Madison/Minnelusa 169500", 
+                            "size": 169500
+                        }, 
+                        {
+                            "name": "Minnekahta 700", 
+                            "size": 700
+                        }, 
+                        {
+                            "name": "Inyan Kara 1400", 
+                            "size": 1400
+                        }, 
+                        {
+                            "name": "Jurassic 700", 
+                            "size": 700
+                        }, 
+                        {
+                            "name": "Cretaceous 1400", 
+                            "size": 1400
+                        }
+                    ]
+                }, 
+                {
+                    "name": "Outflow", 
+                    "children": [
+                        {
+                            "name": "Crystalline 0", 
+                            "size": 0
+                        }, 
+                        {
+                            "name": "Deadwood 4400", 
+                            "size": 4400
+                        }, 
+                        {
+                            "name": "Madison/Minnelusa 41900", 
+                            "size": 41900
+                        }, 
+                        {
+                            "name": "Minnekahta 5800", 
+                            "size": 5800
+                        }, 
+                        {
+                            "name": "Inyan Kara 10200", 
+                            "size": 10200
+                        }, 
+                        {
+                            "name": "Jurassic 1500", 
+                            "size": 1500
+                        }, 
+                        {
+                            "name": "Cretaceous 800", 
+                            "size": 800
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
