@@ -1,6 +1,6 @@
 """
 class to create json files with
-parent/child hiearchy from a pandas
+parent/child hierarchy from a pandas
 DataFrame
 example use of the json file would
 be in a sunburst plot
