@@ -85,7 +85,7 @@ class jsonMaker(object):
 
                 depthCursor = depthCursor[idx]['children']
                 if i == len(data[1])-3:
-                    depthCursor.append({'name':'{} {}'.format(data[1][-2], data[1][-1]),
+                    depthCursor.append({'name':'{}'.format(data[1][-2]),
                                         'size': data[1][-1]})
 
                 current = depthCursor
